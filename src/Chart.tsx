@@ -1,7 +1,7 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 /* tslint:disable */
 // Copyright 2024 Google LLC
 
@@ -17,11 +17,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {max, min} from 'd3-array';
-import {scaleBand, scaleLinear} from 'd3-scale';
-import {line, Line} from 'd3-shape';
-import {useEffect, useRef, useState} from 'react';
-import {timeToSecs} from './utils';
+import { max, min } from "d3-array";
+import { scaleBand, scaleLinear } from "d3-scale";
+import { line, type Line } from "d3-shape";
+import { useEffect, useRef, useState } from "react";
+import { timeToSecs } from "./utils";
 
 interface ChartData {
   time: string;
@@ -34,7 +34,7 @@ interface ChartProps {
   jumpToTimecode: (seconds: number) => void;
 }
 
-export default function Chart({data, yLabel, jumpToTimecode}: ChartProps) {
+export default function Chart({ data, yLabel, jumpToTimecode }: ChartProps) {
   const chartRef = useRef<SVGSVGElement>(null);
   const [width, setWidth] = useState(1);
   const [height, setHeight] = useState(1);
@@ -67,8 +67,8 @@ export default function Chart({data, yLabel, jumpToTimecode}: ChartProps) {
     };
 
     setSize();
-    window.addEventListener('resize', setSize);
-    return () => window.removeEventListener('resize', setSize);
+    window.addEventListener("resize", setSize);
+    return () => window.removeEventListener("resize", setSize);
   }, []);
 
   return (
@@ -89,26 +89,28 @@ export default function Chart({data, yLabel, jumpToTimecode}: ChartProps) {
 
       <g
         className="axisLabels timeLabels"
-        transform={`translate(0 ${yMax + 40})`}>
-        {data.map(({time}, i) => {
+        transform={`translate(0 ${yMax + 40})`}
+      >
+        {data.map(({ time }, i) => {
           return (
             <text
               key={i}
               x={xScale(time)}
               role="button"
-              onClick={() => jumpToTimecode(timeToSecs(time))}>
-              {time.length > 5 ? time.replace(/^00:/, '') : time}
+              onClick={() => jumpToTimecode(timeToSecs(time))}
+            >
+              {time.length > 5 ? time.replace(/^00:/, "") : time}
             </text>
           );
         })}
       </g>
 
       <g>
-        <path d={lineGen(data) ?? ''} />
+        <path d={lineGen(data) ?? ""} />
       </g>
 
       <g>
-        {data.map(({time, value}, i) => {
+        {data.map(({ time, value }, i) => {
           return (
             <g key={i} className="dataPoint">
               <circle cx={xScale(time)} cy={yScale(value)} r={4} />
@@ -125,7 +127,8 @@ export default function Chart({data, yLabel, jumpToTimecode}: ChartProps) {
         className="axisTitle"
         x={margin}
         y={-width + margin}
-        transform="rotate(90)">
+        transform="rotate(90)"
+      >
         {yLabel}
       </text>
     </svg>

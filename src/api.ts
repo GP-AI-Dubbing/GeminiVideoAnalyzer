@@ -5,8 +5,8 @@
 /* tslint:disable */
 
 import {
-  File as GoogleFile,
-  FunctionDeclaration,
+  type File as GoogleFile,
+  type FunctionDeclaration,
   GenerateContentResponse,
   GoogleGenAI,
 } from '@google/genai';
