@@ -21,7 +21,7 @@ import { max, min } from "d3-array";
 import { scaleBand, scaleLinear } from "d3-scale";
 import { line, type Line } from "d3-shape";
 import { useEffect, useRef, useState } from "react";
-import { timeToSecs } from "./utils";
+import { timeToSecs } from "../utils";
 
 interface ChartData {
   time: string;

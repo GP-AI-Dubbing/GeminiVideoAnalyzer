@@ -19,7 +19,7 @@
 
 import c from 'classnames';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {timeToSecs} from './utils';
+import {timeToSecs} from '../utils';
 
 const formatTime = (t: number) =>
   `${Math.floor(t / 60)}:${Math.floor(t % 60)

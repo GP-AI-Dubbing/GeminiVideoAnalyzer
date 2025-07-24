@@ -40,3 +40,399 @@
 .read-the-docs {
   color: #888;
 }
+
+/**
+* Video library
+*/
+.video-library-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.video-library {
+  background: var(--background);
+  border-radius: 12px;
+  width: 90vw;
+  max-width: 900px;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.library-header h2 {
+  margin: 0;
+  color: var(--text);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.clear-all-button {
+  background: #dc3545;
+  border: 1px solid #dc3545;
+  color: white;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.clear-all-button:hover {
+  background: #c82333;
+  border-color: #c82333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.close-button:hover {
+  background: var(--border);
+}
+
+.library-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.error-message {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--track);
+}
+
+.empty-library {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--track);
+}
+
+.empty-library span {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.video-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--highlight);
+}
+
+.video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.video-thumbnail {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: var(--track);
+  overflow: hidden;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-thumbnail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  opacity: 0.5;
+  font-size: 48px;
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.video-info {
+  padding: 16px;
+}
+
+.video-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+
+.video-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--track);
+  margin-bottom: 12px;
+}
+
+.analysis-count {
+  font-size: 12px;
+  color: var(--link);
+  font-weight: 500;
+}
+
+.video-actions {
+  display: flex;
+  padding: 16px;
+  gap: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--background);
+}
+
+.load-button, .delete-button {
+  flex: 1;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--highlight);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.load-button:hover {
+  background: var(--link);
+  color: white;
+  border-color: var(--link);
+}
+
+.delete-button:hover {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.library-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 12px;
+  color: var(--track);
+  background: var(--background);
+}
+
+.library-footer small {
+  opacity: 0.7;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.library-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--highlight);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.library-button:hover {
+  background: var(--link);
+  color: white;
+}
+
+.storage-info {
+  margin-top: 8px;
+}
+
+.storage-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+.storage-usage {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #FFC107, #FF5722);
+  transition: width 0.3s ease;
+}
+
+/* Storage Method Selector */
+.storage-method-selector {
+  background: var(--highlight);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 16px 0;
+}
+
+.storage-method-selector h3 {
+  margin: 0 0 12px 0;
+  color: var(--text);
+}
+
+.storage-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.storage-option {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--background);
+}
+
+.storage-option:hover {
+  border-color: var(--link);
+  background: var(--highlight);
+}
+
+.storage-option.selected {
+  border-color: var(--link);
+  background: var(--highlight);
+  box-shadow: 0 0 0 1px var(--link);
+}
+
+.storage-option input[type="radio"] {
+  margin-right: 12px;
+  margin-top: 2px;
+}
+
+.option-content {
+  flex: 1;
+}
+
+.option-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.option-header .icon {
+  font-size: 18px;
+}
+
+.option-header .title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge.recommended {
+  background: #28a745;
+  color: white;
+}
+
+.badge.error {
+  background: #dc3545;
+  color: white;
+}
+
+.option-details {
+  font-size: 13px;
+  color: var(--track);
+}
+
+.option-details p {
+  margin: 4px 0;
+}
+
+.warning {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.benefit {
+  color: #28a745;
+  font-weight: 500;
+}
+
+.note {
+  color: var(--link);
+  font-weight: 500;
+}
