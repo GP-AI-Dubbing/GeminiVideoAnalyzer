@@ -227,12 +227,6 @@
   margin-bottom: 12px;
 }
 
-.analysis-count {
-  font-size: 12px;
-  color: var(--link);
-  font-weight: 500;
-}
-
 .video-actions {
   display: flex;
   padding: 16px;

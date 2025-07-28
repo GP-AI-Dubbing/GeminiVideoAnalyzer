@@ -1,14 +1,13 @@
 import { type File as GoogleFile } from "@google/genai";
 import c from "classnames";
 import { useRef, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { generateContent, uploadFile } from "./api";
 import Chart from "./components/Chart.tsx";
 import VideoPlayer from "./components/VideoPlayer.tsx";
 import functionDeclarations from "./functions";
 import modes from "./modes";
 import { timeToSecs } from "./utils";
-import "./App.css";
-
 import "./App.css";
 import { VideoLibrary } from "./components/VideoLibrary.tsx";
 import { useVideoLibrary } from "./hooks/useVideoLibrary.ts";
@@ -109,17 +108,22 @@ function App() {
       setIsLoading(false);
       scrollRef.current?.scrollTo({ top: 0 });
 
-      if (currentVideoId && timecodeList) {
+      console.log("call:", { call });
+      console.log("Analysis complete:", { currentVideoId, timecodeList });
+
+      if (currentVideoId && call?.args?.timecodes) {
         saveAnalysisResult(currentVideoId, mode + "", {
           prompt: promptText,
-          timecodes: timecodeList,
+          timecodes: call.args.timecodes,
           timestamp: new Date().toISOString(),
         });
       }
     } catch (error) {
-      console.error("Analysis failed:", error);
-      setIsLoading(false);
+      console.error("Error generating content:", error);
 
+      IndexedDBStorageService.deleteVideo(currentVideoId!);
+
+      setIsLoading(false);
       // Save error result
       if (currentVideoId) {
         const errorResult = {
@@ -161,13 +165,19 @@ function App() {
         console.log("✅ Video saved to library successfully");
       } catch (saveError) {
         console.warn("⚠️ Failed to save to library:", saveError);
-        
+
         // Show user-friendly message for storage errors
         if (saveError instanceof Error) {
-          if (saveError.message.includes('quá lớn')) {
-            console.log(`� Video too large for storage (${fileSizeMB.toFixed(1)}MB) - continuing with analysis only`);
+          if (saveError.message.includes("quá lớn")) {
+            console.log(
+              `� Video too large for storage (${fileSizeMB.toFixed(
+                1
+              )}MB) - continuing with analysis only`
+            );
           } else {
-            console.log(`💾 Storage error: ${saveError.message} - continuing with analysis only`);
+            console.log(
+              `💾 Storage error: ${saveError.message} - continuing with analysis only`
+            );
           }
         }
         // Continue anyway - video is still uploaded for analysis
@@ -182,8 +192,13 @@ function App() {
     }
   };
 
+  /**
+   * Handle video selection from the library
+   * @param video The selected video
+   */
   const handleSelectVideo = async (video: StoredVideo) => {
     try {
+      
       setIsLoadingVideo(true);
 
       // Cleanup old URL
@@ -325,7 +340,7 @@ function App() {
                         setSelectedMode(Object.keys(modes)[0] as ModeKey)
                       }
                     >
-                      <span className="icon">chevron_left</span>
+                      <span className="icon"><ChevronLeft /></span>
                       Back
                     </button>
                   </div>
@@ -364,7 +379,7 @@ function App() {
               onClick={() => setShowSidebar(!showSidebar)}
             >
               <span className="icon">
-                {showSidebar ? "chevron_left" : "chevron_right"}
+                {showSidebar ? <ChevronLeft /> : <ChevronRight />}
               </span>
             </button>
           </>
@@ -380,7 +395,7 @@ function App() {
         />
       </section>
 
-       <VideoLibrary
+      <VideoLibrary
         videos={storedVideos}
         onSelectVideo={handleSelectVideo}
         onDeleteVideo={handleDeleteVideo}

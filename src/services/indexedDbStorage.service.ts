@@ -188,6 +188,8 @@ class IndexedDBStorageService {
       if (!video.analysisHistory) {
         video.analysisHistory = [];
       }
+
+      console.log("analysisResult", analysisResult)
       
       video.analysisHistory.push(analysisResult);
 
