@@ -153,7 +153,6 @@ main {
 .modeSelector {
   display: flex;
   flex-direction: column;
-  gap: 30px;
   overflow: hidden;
   width: 250px;
 }

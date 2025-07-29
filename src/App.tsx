@@ -1,7 +1,7 @@
 import { type File as GoogleFile } from "@google/genai";
 import c from "classnames";
 import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ListVideo } from "lucide-react";
 import { generateContent, uploadFile } from "./api";
 import Chart from "./components/Chart.tsx";
 import VideoPlayer from "./components/VideoPlayer.tsx";
@@ -14,6 +14,7 @@ import { useVideoLibrary } from "./hooks/useVideoLibrary.ts";
 import IndexedDBStorageService, {
   type StoredVideo,
 } from "./services/indexedDbStorage.service.ts";
+import { Typography } from "./components/ui/typography.tsx";
 
 const chartModes = Object.keys(modes.Chart.subModes!);
 type ModeKey = keyof typeof modes;
@@ -198,7 +199,6 @@ function App() {
    */
   const handleSelectVideo = async (video: StoredVideo) => {
     try {
-      
       setIsLoadingVideo(true);
 
       // Cleanup old URL
@@ -254,13 +254,15 @@ function App() {
       onDragLeave={() => {}}
     >
       <div className="app-header">
-        <h1>Gemini Video Analyzer</h1>
+        <Typography as="h3">Video Analyzer</Typography>
         <button
           className="library-button"
           onClick={() => setShowLibrary(true)}
           title="Mở thư viện video"
         >
-          <span className="icon">video_library</span>
+          <span className="icon">
+            <ListVideo />
+          </span>
           Library ({storedVideos.length})
         </button>
       </div>
@@ -340,7 +342,9 @@ function App() {
                         setSelectedMode(Object.keys(modes)[0] as ModeKey)
                       }
                     >
-                      <span className="icon"><ChevronLeft /></span>
+                      <span className="icon">
+                        <ChevronLeft />
+                      </span>
                       Back
                     </button>
                   </div>
