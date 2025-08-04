@@ -1,19 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import IndexedDBStorageService, {
-  type StoredVideo,
-  type AnalysisResult,
-} from "../services/indexedDbStorage.service";
+import { useCallback, useEffect, useState } from 'react';
+import IndexedDBStorageService, { type AnalysisResult, type StoredVideo } from '../services/indexedDbStorage.service';
 
 export interface VideoLibraryHook {
   storedVideos: StoredVideo[];
   showLibrary: boolean;
   setShowLibrary: (show: boolean) => void;
-  saveCurrentVideo: (
-    file: File,
-    geminiFile: any,
-    url: string,
-    videoElement?: HTMLVideoElement
-  ) => Promise<string>;
+  saveCurrentVideo: (file: File, geminiFile: any, url: string, videoElement?: HTMLVideoElement) => Promise<string>;
   loadVideo: (videoId: string) => Promise<StoredVideo | null>;
   deleteVideo: (videoId: string) => Promise<void>;
   saveAnalysisResult: (videoId: string, mode: string, result: any) => Promise<void>;
@@ -39,8 +31,8 @@ export const useVideoLibrary = (): VideoLibraryHook => {
       const videos = await IndexedDBStorageService.getStoredVideos();
       setStoredVideos(videos);
     } catch (err) {
-      setError("Failed to load videos from storage");
-      console.error("Error loading stored videos:", err);
+      setError('Failed to load videos from storage');
+      console.error('Error loading stored videos:', err);
     } finally {
       setIsLoading(false);
     }
@@ -60,11 +52,9 @@ export const useVideoLibrary = (): VideoLibraryHook => {
         let thumbnail: string | undefined;
         if (videoElement) {
           try {
-            thumbnail = await IndexedDBStorageService.generateThumbnail(
-              videoElement
-            );
+            thumbnail = await IndexedDBStorageService.generateThumbnail(videoElement);
           } catch (thumbError) {
-            console.warn("Failed to generate thumbnail:", thumbError);
+            console.warn('Failed to generate thumbnail:', thumbError);
           }
         }
 
@@ -85,9 +75,9 @@ export const useVideoLibrary = (): VideoLibraryHook => {
 
         return videoData.id;
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "Failed to save video";
+        const errorMessage = err instanceof Error ? err.message : 'Failed to save video';
         setError(errorMessage);
-        console.error("Error saving video:", err);
+        console.error('Error saving video:', err);
         throw err;
       } finally {
         setIsLoading(false);
@@ -100,8 +90,8 @@ export const useVideoLibrary = (): VideoLibraryHook => {
     try {
       return await IndexedDBStorageService.getVideoById(videoId);
     } catch (err) {
-      setError("Failed to load video");
-      console.error("Error loading video:", err);
+      setError('Failed to load video');
+      console.error('Error loading video:', err);
       return null;
     }
   }, []);
@@ -113,8 +103,8 @@ export const useVideoLibrary = (): VideoLibraryHook => {
         await IndexedDBStorageService.deleteVideo(videoId);
         await loadStoredVideos();
       } catch (err) {
-        setError("Failed to delete video");
-        console.error("Error deleting video:", err);
+        setError('Failed to delete video');
+        console.error('Error deleting video:', err);
       }
     },
     [loadStoredVideos]
@@ -134,8 +124,8 @@ export const useVideoLibrary = (): VideoLibraryHook => {
         await IndexedDBStorageService.updateVideoAnalysis(videoId, analysisResult);
         await loadStoredVideos();
       } catch (err) {
-        setError("Failed to save analysis result");
-        console.error("Error saving analysis result:", err);
+        setError('Failed to save analysis result');
+        console.error('Error saving analysis result:', err);
       }
     },
     [loadStoredVideos]

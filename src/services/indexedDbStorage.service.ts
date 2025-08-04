@@ -27,10 +27,10 @@ class IndexedDBStorageService {
   private static async openDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.DB_NAME, this.DB_VERSION);
-      
+
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve(request.result);
-      
+
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (!db.objectStoreNames.contains(this.STORE_NAME)) {
@@ -44,25 +44,25 @@ class IndexedDBStorageService {
   static async saveVideo(video: Omit<StoredVideo, 'fileData'> & { fileData: File }): Promise<void> {
     try {
       const db = await this.openDB();
-      
+
       // Convert File to Blob (more efficient than base64)
       const videoBlob = new Blob([video.fileData], { type: video.fileData.type });
-      
+
       const storedVideo: StoredVideo = {
         ...video,
-        fileData: videoBlob
+        fileData: videoBlob,
       };
 
       // Check storage quota
       const existingVideos = await this.getStoredVideos();
       const totalSize = existingVideos.reduce((sum, v) => sum + v.size, 0) + video.fileData.size;
-      
+
       if (totalSize > this.MAX_STORAGE_SIZE) {
         // Remove oldest videos to make space
-        const sortedVideos = existingVideos.sort((a, b) => 
-          new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime()
+        const sortedVideos = existingVideos.sort(
+          (a, b) => new Date(a.uploadedAt).getTime() - new Date(b.uploadedAt).getTime()
         );
-        
+
         let currentSize = totalSize;
         let i = 0;
         while (currentSize > this.MAX_STORAGE_SIZE && i < sortedVideos.length) {
@@ -70,19 +70,19 @@ class IndexedDBStorageService {
           currentSize -= sortedVideos[i].size;
           i++;
         }
-        
+
         console.log(`🗑️ Removed ${i} old videos to make space`);
       }
-      
+
       const transaction = db.transaction([this.STORE_NAME], 'readwrite');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       await new Promise<void>((resolve, reject) => {
         const request = store.put(storedVideo);
         request.onsuccess = () => resolve();
         request.onerror = () => reject(request.error);
       });
-      
+
       console.log(`✅ Video saved to IndexedDB: ${video.name} (${this.formatBytes(video.fileData.size)})`);
     } catch (error) {
       console.error('Error saving video to IndexedDB:', error);
@@ -95,17 +95,18 @@ class IndexedDBStorageService {
       const db = await this.openDB();
       const transaction = db.transaction([this.STORE_NAME], 'readonly');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       return new Promise((resolve, reject) => {
         const request = store.getAll();
         request.onsuccess = () => {
           const videos = request.result.map((video: any) => ({
             ...video,
             uploadedAt: new Date(video.uploadedAt),
-            analysisHistory: video.analysisHistory?.map((analysis: any) => ({
-              ...analysis,
-              timestamp: new Date(analysis.timestamp)
-            })) || []
+            analysisHistory:
+              video.analysisHistory?.map((analysis: any) => ({
+                ...analysis,
+                timestamp: new Date(analysis.timestamp),
+              })) || [],
           }));
           resolve(videos);
         };
@@ -122,7 +123,7 @@ class IndexedDBStorageService {
       const db = await this.openDB();
       const transaction = db.transaction([this.STORE_NAME], 'readwrite');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       await new Promise<void>((resolve, reject) => {
         const request = store.delete(id);
         request.onsuccess = () => resolve();
@@ -138,7 +139,7 @@ class IndexedDBStorageService {
       if (!video.fileData) {
         throw new Error('Video file data is missing');
       }
-      
+
       // Create URL from Blob
       return URL.createObjectURL(video.fileData);
     } catch (error) {
@@ -152,7 +153,7 @@ class IndexedDBStorageService {
       const db = await this.openDB();
       const transaction = db.transaction([this.STORE_NAME], 'readonly');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       return new Promise((resolve, reject) => {
         const request = store.get(id);
         request.onsuccess = () => {
@@ -161,10 +162,11 @@ class IndexedDBStorageService {
             resolve({
               ...video,
               uploadedAt: new Date(video.uploadedAt),
-              analysisHistory: video.analysisHistory?.map((analysis: any) => ({
-                ...analysis,
-                timestamp: new Date(analysis.timestamp)
-              })) || []
+              analysisHistory:
+                video.analysisHistory?.map((analysis: any) => ({
+                  ...analysis,
+                  timestamp: new Date(analysis.timestamp),
+                })) || [],
             });
           } else {
             resolve(null);
@@ -189,14 +191,14 @@ class IndexedDBStorageService {
         video.analysisHistory = [];
       }
 
-      console.log("analysisResult", analysisResult)
-      
+      console.log('analysisResult', analysisResult);
+
       video.analysisHistory.push(analysisResult);
 
       const db = await this.openDB();
       const transaction = db.transaction([this.STORE_NAME], 'readwrite');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       await new Promise<void>((resolve, reject) => {
         const request = store.put(video);
         request.onsuccess = () => resolve();
@@ -213,7 +215,7 @@ class IndexedDBStorageService {
       try {
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        
+
         if (!ctx) {
           reject(new Error('Cannot get canvas context'));
           return;
@@ -222,10 +224,10 @@ class IndexedDBStorageService {
         // Set canvas size to match video
         canvas.width = videoElement.videoWidth || 320;
         canvas.height = videoElement.videoHeight || 240;
-        
+
         // Draw current frame to canvas
         ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        
+
         // Convert to base64
         resolve(canvas.toDataURL('image/jpeg', 0.7));
       } catch (error) {
@@ -239,7 +241,7 @@ class IndexedDBStorageService {
       const db = await this.openDB();
       const transaction = db.transaction([this.STORE_NAME], 'readwrite');
       const store = transaction.objectStore(this.STORE_NAME);
-      
+
       await new Promise<void>((resolve, reject) => {
         const request = store.clear();
         request.onsuccess = () => resolve();
@@ -254,19 +256,19 @@ class IndexedDBStorageService {
     try {
       const videos = await this.getStoredVideos();
       const used = videos.reduce((sum, video) => sum + video.size, 0);
-      
+
       return {
         used,
         available: this.MAX_STORAGE_SIZE - used,
         total: this.MAX_STORAGE_SIZE,
-        percentage: (used / this.MAX_STORAGE_SIZE) * 100
+        percentage: (used / this.MAX_STORAGE_SIZE) * 100,
       };
     } catch (error) {
       return {
         used: 0,
         available: this.MAX_STORAGE_SIZE,
         total: this.MAX_STORAGE_SIZE,
-        percentage: 0
+        percentage: 0,
       };
     }
   }

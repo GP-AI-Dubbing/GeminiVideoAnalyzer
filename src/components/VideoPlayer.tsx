@@ -17,15 +17,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import c from "classnames";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Play, Pause } from "lucide-react";
-import { timeToSecs } from "../utils";
+import c from 'classnames';
+import { Pause, Play } from 'lucide-react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { timeToSecs } from '../utils';
 
 const formatTime = (t: number) =>
   `${Math.floor(t / 60)}:${Math.floor(t % 60)
     .toString()
-    .padStart(2, "0")}`;
+    .padStart(2, '0')}`;
 
 interface Timecode {
   time: string;
@@ -60,10 +60,7 @@ export default function VideoPlayer({
   const [currentCaption, setCurrentCaption] = useState<string | null>(null);
   const currentSecs = duration * scrubberTime || 0;
   const currentPercent = scrubberTime * 100;
-  const timecodeListReversed = useMemo(
-    () => timecodeList?.slice().reverse(),
-    [timecodeList]
-  );
+  const timecodeListReversed = useMemo(() => timecodeList?.slice().reverse(), [timecodeList]);
 
   const togglePlay = useCallback(() => {
     if (!video) return;
@@ -85,11 +82,7 @@ export default function VideoPlayer({
     }
 
     if (timecodeListReversed) {
-      setCurrentCaption(
-        timecodeListReversed.find(
-          (t) => timeToSecs(t.time) <= video.currentTime
-        )?.text ?? null
-      );
+      setCurrentCaption(timecodeListReversed.find((t) => timeToSecs(t.time) <= video.currentTime)?.text ?? null);
     }
   };
 
@@ -110,20 +103,16 @@ export default function VideoPlayer({
   useEffect(() => {
     const onKeyPress = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.tagName !== "INPUT" &&
-        target.tagName !== "TEXTAREA" &&
-        e.key === " "
-      ) {
+      if (target.tagName !== 'INPUT' && target.tagName !== 'TEXTAREA' && e.key === ' ') {
         e.preventDefault();
         togglePlay();
       }
     };
 
-    window.addEventListener("keypress", onKeyPress);
+    window.addEventListener('keypress', onKeyPress);
 
     return () => {
-      window.removeEventListener("keypress", onKeyPress);
+      window.removeEventListener('keypress', onKeyPress);
     };
   }, [togglePlay]);
 
@@ -144,15 +133,13 @@ export default function VideoPlayer({
               onPause={onPause}
             />
 
-            {currentCaption && (
-              <div className="videoCaption">{currentCaption}</div>
-            )}
+            {currentCaption && <div className="videoCaption">{currentCaption}</div>}
           </div>
 
           <div className="videoControls">
             <div className="videoScrubber">
               <input
-                style={{ "--pct": `${currentPercent}%` } as React.CSSProperties}
+                style={{ '--pct': `${currentPercent}%` } as React.CSSProperties}
                 type="range"
                 min="0"
                 max="1"
@@ -174,20 +161,11 @@ export default function VideoPlayer({
                 const pct = (secs / duration) * 100;
 
                 return (
-                  <div
-                    className="timecodeMarker"
-                    key={i}
-                    style={{ left: `${pct}%` }}
-                  >
-                    <div
-                      className="timecodeMarkerTick"
-                      onClick={() => jumpToTimecode(secs)}
-                    >
+                  <div className="timecodeMarker" key={i} style={{ left: `${pct}%` }}>
+                    <div className="timecodeMarkerTick" onClick={() => jumpToTimecode(secs)}>
                       <div />
                     </div>
-                    <div
-                      className={c("timecodeMarkerLabel", { right: pct > 50 })}
-                    >
+                    <div className={c('timecodeMarkerLabel', { right: pct > 50 })}>
                       <div>{time}</div>
                       <p>{value || text}</p>
                     </div>
@@ -207,10 +185,10 @@ export default function VideoPlayer({
         <div className="emptyVideo">
           <p>
             {isLoadingVideo
-              ? "Processing video..."
+              ? 'Processing video...'
               : videoError
-              ? "Error processing video."
-              : "Drag and drop a video file here to get started."}
+                ? 'Error processing video.'
+                : 'Drag and drop a video file here to get started.'}
           </p>
         </div>
       )}

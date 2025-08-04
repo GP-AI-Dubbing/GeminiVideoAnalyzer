@@ -1,7 +1,7 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 /* tslint:disable */
 // Copyright 2024 Google LLC
 
@@ -26,7 +26,7 @@ interface Mode {
   };
 }
 
-const modes: {[key: string]: Mode} = {
+const modes: { [key: string]: Mode } = {
   'A/V captions': {
     emoji: '👀',
     prompt: `For each scene in this video, generate captions that describe the \
@@ -76,18 +76,15 @@ to follow the syllable count rules (5-7-5).`,
       `Generate chart data for this video based on the following instructions: \
 ${input}. Call set_timecodes_with_numeric_values once with the list of data values and timecodes.`,
     subModes: {
-      Excitement:
-        'for each scene, estimate the level of excitement on a scale of 1 to 10',
-      Importance:
-        'for each scene, estimate the level of overall importance to the video on a scale of 1 to 10',
+      Excitement: 'for each scene, estimate the level of excitement on a scale of 1 to 10',
+      Importance: 'for each scene, estimate the level of overall importance to the video on a scale of 1 to 10',
       'Number of people': 'for each scene, count the number of people visible',
     },
   },
 
   Custom: {
     emoji: '🔧',
-    prompt: (input) =>
-      `Call set_timecodes once using the following instructions: ${input}`,
+    prompt: (input) => `Call set_timecodes once using the following instructions: ${input}`,
     isList: true,
   },
 };

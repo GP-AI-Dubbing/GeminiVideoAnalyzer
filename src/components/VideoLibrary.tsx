@@ -1,15 +1,6 @@
-import {
-  BookOpenCheck,
-  BrushCleaning,
-  Delete,
-  FileChartColumnIncreasing,
-  ListVideo,
-  Trash2,
-} from "lucide-react";
-import React, { useEffect, useState } from "react";
-import IndexedDBStorageService, {
-  type StoredVideo,
-} from "../services/indexedDbStorage.service";
+import { BookOpenCheck, BrushCleaning, FileChartColumnIncreasing, ListVideo, Trash2 } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import IndexedDBStorageService, { type StoredVideo } from '../services/indexedDbStorage.service';
 
 interface VideoLibraryProps {
   videos: StoredVideo[];
@@ -48,7 +39,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
       const info = await IndexedDBStorageService.getStorageInfo();
       setStorageInfo(info);
     } catch (error) {
-      console.error("Error loading storage info:", error);
+      console.error('Error loading storage info:', error);
     }
   };
 
@@ -58,27 +49,27 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
   };
 
   const formatDate = (date: Date): string => {
-    return new Date(date).toLocaleDateString("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(date).toLocaleDateString('vi-VN', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
   const formatDuration = (seconds?: number): string => {
-    if (!seconds) return "--:--";
+    if (!seconds) return '--:--';
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const handleSelectVideo = (video: StoredVideo) => {
     try {
       onSelectVideo(video);
     } catch (error) {
-      console.error("Error selecting video:", error);
+      console.error('Error selecting video:', error);
     }
   };
 
@@ -93,15 +84,14 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
 
     if (
       window.confirm(
-        `Bạn có chắc muốn xóa TẤT CẢ ${videos.length} videos khỏi thư viện? ` +
-          `Hành động này không thể hoàn tác!`
+        `Bạn có chắc muốn xóa TẤT CẢ ${videos.length} videos khỏi thư viện? ` + `Hành động này không thể hoàn tác!`
       )
     ) {
       try {
         await IndexedDBStorageService.clearAllVideos();
         window.location.reload(); // Reload to refresh the state
       } catch (error) {
-        console.error("Error clearing all videos:", error);
+        console.error('Error clearing all videos:', error);
       }
     }
   };
@@ -148,7 +138,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
                         src={video.thumbnail}
                         alt={video.name}
                         onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = "none";
+                          (e.target as HTMLImageElement).style.display = 'none';
                         }}
                       />
                     ) : (
@@ -156,9 +146,7 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
                         <span className="icon">movie</span>
                       </div>
                     )}
-                    <div className="video-duration">
-                      {formatDuration(video.duration)}
-                    </div>
+                    <div className="video-duration">{formatDuration(video.duration)}</div>
                   </div>
 
                   <div className="video-info">
@@ -167,29 +155,20 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
                     </h3>
 
                     <div className="video-meta">
-                      <span className="upload-date">
-                        {formatDate(video.uploadedAt)}
-                      </span>
-                      <span className="file-size">
-                        {formatFileSize(video.size)}
-                      </span>
+                      <span className="upload-date">{formatDate(video.uploadedAt)}</span>
+                      <span className="file-size">{formatFileSize(video.size)}</span>
                     </div>
 
-                    {video.analysisHistory &&
-                      video.analysisHistory.length > 0 && (
-                        <div className="text-[12px] text-[var(--link)] font-medium flex flex-row items-center gap-1">
-                          <FileChartColumnIncreasing />
-                          {video.analysisHistory.length} phân tích
-                        </div>
-                      )}
+                    {video.analysisHistory && video.analysisHistory.length > 0 && (
+                      <div className="text-[12px] text-[var(--link)] font-medium flex flex-row items-center gap-1">
+                        <FileChartColumnIncreasing />
+                        {video.analysisHistory.length} phân tích
+                      </div>
+                    )}
                   </div>
 
                   <div className="video-actions">
-                    <button
-                      className="load-button"
-                      onClick={() => handleSelectVideo(video)}
-                      title="Load video này"
-                    >
+                    <button className="load-button" onClick={() => handleSelectVideo(video)} title="Load video này">
                       <span className="icon">
                         <BookOpenCheck />
                       </span>
@@ -218,25 +197,20 @@ export const VideoLibrary: React.FC<VideoLibraryProps> = ({
           </p>
           <div className="storage-info">
             <div className="storage-bar">
-              <div
-                className="storage-usage"
-                style={{ width: `${Math.min(storageInfo.percentage, 100)}%` }}
-              />
+              <div className="storage-usage" style={{ width: `${Math.min(storageInfo.percentage, 100)}%` }} />
             </div>
             <small>
-              {IndexedDBStorageService.formatBytes(storageInfo.used)} /{" "}
+              {IndexedDBStorageService.formatBytes(storageInfo.used)} /{' '}
               {IndexedDBStorageService.formatBytes(storageInfo.total)} used
               {storageInfo.percentage > 90 && (
-                <span style={{ color: "#dc3545", marginLeft: "8px" }}>
-                  ⚠️ Gần hết dung lượng
-                </span>
+                <span style={{ color: '#dc3545', marginLeft: '8px' }}>⚠️ Gần hết dung lượng</span>
               )}
               {storageInfo.percentage > 70 && (
                 <div
                   style={{
-                    color: "#856404",
-                    marginTop: "4px",
-                    fontSize: "11px",
+                    color: '#856404',
+                    marginTop: '4px',
+                    fontSize: '11px',
                   }}
                 >
                   💡 Video mới có thể xóa video cũ để tạo chỗ trống

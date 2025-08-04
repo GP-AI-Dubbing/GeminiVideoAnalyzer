@@ -11,7 +11,7 @@ interface StorageMethodSelectorProps {
 export const StorageMethodSelector: React.FC<StorageMethodSelectorProps> = ({
   currentMethod,
   onMethodChange,
-  videoSize
+  videoSize,
 }) => {
   const formatBytes = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
@@ -26,8 +26,10 @@ export const StorageMethodSelector: React.FC<StorageMethodSelectorProps> = ({
   return (
     <div className="storage-method-selector">
       <h3>🗂️ Chọn phương thức lưu trữ</h3>
-      <p>Video của bạn: <strong>{formatBytes(videoSize)}</strong></p>
-      
+      <p>
+        Video của bạn: <strong>{formatBytes(videoSize)}</strong>
+      </p>
+
       <div className="storage-options">
         <label className={`storage-option ${currentMethod === 'localStorage' ? 'selected' : ''}`}>
           <input
@@ -46,9 +48,7 @@ export const StorageMethodSelector: React.FC<StorageMethodSelectorProps> = ({
             </div>
             <div className="option-details">
               <p>Giới hạn: ~8MB | Tốc độ: Nhanh | Tương thích: Cao</p>
-              {videoSizeMB > 8 && (
-                <p className="warning">⚠️ Video quá lớn cho localStorage</p>
-              )}
+              {videoSizeMB > 8 && <p className="warning">⚠️ Video quá lớn cho localStorage</p>}
             </div>
           </div>
         </label>

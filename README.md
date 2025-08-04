@@ -4,13 +4,13 @@
 
 1. `.env.local`
 
-    ```
-    GEMINI_API_KEY=
-    ```
+   ```
+   GEMINI_API_KEY=
+   ```
 
 2. Running
 
-    ```
-    pnpm i
-    pnpm run dev
-    ```
+   ```
+   pnpm i
+   pnpm run dev
+   ```

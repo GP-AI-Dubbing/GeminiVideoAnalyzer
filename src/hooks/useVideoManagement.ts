@@ -1,7 +1,5 @@
-import { useState, useEffect, useCallback } from "react";
-import VideoStorageService, {
-  type StoredVideo,
-} from "../services/videoStorage.service";
+import { useCallback, useEffect, useState } from 'react';
+import VideoStorageService, { type StoredVideo } from '../services/videoStorage.service';
 
 export const useVideoLibrary = () => {
   const [storedVideos, setStoredVideos] = useState<StoredVideo[]>([]);
@@ -17,12 +15,7 @@ export const useVideoLibrary = () => {
   }, []);
 
   const saveCurrentVideo = useCallback(
-    async (
-      file: File,
-      geminiFile: any,
-      url: string,
-      videoElement?: HTMLVideoElement
-    ) => {
+    async (file: File, geminiFile: any, url: string, videoElement?: HTMLVideoElement) => {
       try {
         let thumbnail;
         if (videoElement) {
@@ -46,7 +39,7 @@ export const useVideoLibrary = () => {
 
         return storedVideo.id;
       } catch (error) {
-        console.error("Error saving video:", error);
+        console.error('Error saving video:', error);
         throw error;
       }
     },

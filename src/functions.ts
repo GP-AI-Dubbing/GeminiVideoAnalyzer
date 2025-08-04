@@ -1,7 +1,7 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
-*/
+ */
 /* tslint:disable */
 // Copyright 2024 Google LLC
 
@@ -16,7 +16,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import {type FunctionDeclaration, Type} from '@google/genai';
+import { type FunctionDeclaration, Type } from '@google/genai';
 
 const functions: FunctionDeclaration[] = [
   {
@@ -46,8 +46,7 @@ const functions: FunctionDeclaration[] = [
   },
   {
     name: 'set_timecodes_with_objects',
-    description:
-      'Set the timecodes for the video with associated text and object list',
+    description: 'Set the timecodes for the video with associated text and object list',
     parameters: {
       type: Type.OBJECT,
       properties: {
@@ -78,8 +77,7 @@ const functions: FunctionDeclaration[] = [
   },
   {
     name: 'set_speaker_diarization',
-    description:
-      'Sets the timecodes for the video with associated speaker and text for speaker diarization.',
+    description: 'Sets the timecodes for the video with associated speaker and text for speaker diarization.',
     parameters: {
       type: Type.OBJECT,
       properties: {
@@ -90,13 +88,11 @@ const functions: FunctionDeclaration[] = [
             properties: {
               time: {
                 type: Type.STRING,
-                description:
-                  'The timecode for the start of the speech segment.',
+                description: 'The timecode for the start of the speech segment.',
               },
               speaker: {
                 type: Type.STRING,
-                description:
-                  'An identifier for the speaker, e.g., "Người nói 1", "Speaker 2".',
+                description: 'An identifier for the speaker, e.g., "Người nói 1", "Speaker 2".',
               },
               text: {
                 type: Type.STRING,
@@ -112,8 +108,7 @@ const functions: FunctionDeclaration[] = [
   },
   {
     name: 'set_timecodes_with_numeric_values',
-    description:
-      'Set the timecodes for the video with associated numeric values',
+    description: 'Set the timecodes for the video with associated numeric values',
     parameters: {
       type: Type.OBJECT,
       properties: {

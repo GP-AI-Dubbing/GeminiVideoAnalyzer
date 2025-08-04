@@ -1,10 +1,11 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 /*---break---
 */
 @custom-variant dark (&:is(.dark *));
 
-#root { }
+#root {
+}
 
 .logo {
   height: 6em;
@@ -159,7 +160,9 @@
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   background: var(--highlight);
 }
 
@@ -235,7 +238,8 @@
   background: var(--background);
 }
 
-.load-button, .delete-button {
+.load-button,
+.delete-button {
   flex: 1;
   padding: 10px 16px;
   border: 1px solid var(--border);
@@ -318,7 +322,7 @@
 
 .storage-usage {
   height: 100%;
-  background: linear-gradient(90deg, #4CAF50, #FFC107, #FF5722);
+  background: linear-gradient(90deg, #4caf50, #ffc107, #ff5722);
   transition: width 0.3s ease;
 }
 
@@ -365,7 +369,7 @@
   box-shadow: 0 0 0 1px var(--link);
 }
 
-.storage-option input[type="radio"] {
+.storage-option input[type='radio'] {
   margin-right: 12px;
   margin-top: 2px;
 }

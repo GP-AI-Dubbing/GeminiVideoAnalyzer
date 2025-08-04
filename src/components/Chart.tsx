@@ -17,11 +17,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { max, min } from "d3-array";
-import { scaleBand, scaleLinear } from "d3-scale";
-import { line, type Line } from "d3-shape";
-import { useEffect, useRef, useState } from "react";
-import { timeToSecs } from "../utils";
+import { max, min } from 'd3-array';
+import { scaleBand, scaleLinear } from 'd3-scale';
+import { line, type Line } from 'd3-shape';
+import { useEffect, useRef, useState } from 'react';
+import { timeToSecs } from '../utils';
 
 interface ChartData {
   time: string;
@@ -67,8 +67,8 @@ export default function Chart({ data, yLabel, jumpToTimecode }: ChartProps) {
     };
 
     setSize();
-    window.addEventListener("resize", setSize);
-    return () => window.removeEventListener("resize", setSize);
+    window.addEventListener('resize', setSize);
+    return () => window.removeEventListener('resize', setSize);
   }, []);
 
   return (
@@ -87,26 +87,18 @@ export default function Chart({ data, yLabel, jumpToTimecode }: ChartProps) {
         })}
       </g>
 
-      <g
-        className="axisLabels timeLabels"
-        transform={`translate(0 ${yMax + 40})`}
-      >
+      <g className="axisLabels timeLabels" transform={`translate(0 ${yMax + 40})`}>
         {data.map(({ time }, i) => {
           return (
-            <text
-              key={i}
-              x={xScale(time)}
-              role="button"
-              onClick={() => jumpToTimecode(timeToSecs(time))}
-            >
-              {time.length > 5 ? time.replace(/^00:/, "") : time}
+            <text key={i} x={xScale(time)} role="button" onClick={() => jumpToTimecode(timeToSecs(time))}>
+              {time.length > 5 ? time.replace(/^00:/, '') : time}
             </text>
           );
         })}
       </g>
 
       <g>
-        <path d={lineGen(data) ?? ""} />
+        <path d={lineGen(data) ?? ''} />
       </g>
 
       <g>
@@ -123,12 +115,7 @@ export default function Chart({ data, yLabel, jumpToTimecode }: ChartProps) {
         })}
       </g>
 
-      <text
-        className="axisTitle"
-        x={margin}
-        y={-width + margin}
-        transform="rotate(90)"
-      >
+      <text className="axisTitle" x={margin} y={-width + margin} transform="rotate(90)">
         {yLabel}
       </text>
     </svg>
